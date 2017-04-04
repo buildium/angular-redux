@@ -1,0 +1,35 @@
+{
+  "name": "@buildium/angular-redux",
+  "version": "1.0.0-0",
+  "description": "A collection of functions that wires Redux up to Angular apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0",
+    "dist": "browserify index.js -o dist/buildium-angular-redux.js",
+    "preversion": "npm run dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buildium/angular-redux.git"
+  },
+  "keywords": [],
+  "author": "Buildium <buidiumadmin@buildium.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/buildium/angular-redux/issues"
+  },
+  "homepage": "https://github.com/buildium/angular-redux#readme",
+  "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.isempty": "^4.4.0",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "peerDependencies": {
+    "angular": ">=1.5"
+  },
+  "devDependencies": {
+    "browserify": "14.1.0",
+    "angular": ">=1.5"
+  }
+}
