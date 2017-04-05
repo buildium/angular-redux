@@ -21,9 +21,9 @@ angular.module(moduleName, [])
         processedDeps.angular = dependencies.map(function(dep) {
             if (typeof dep !== 'string') {
                 return dep.name;
-            } else {
-                return dep;
             }
+
+            return dep;
         });
         processedDeps.reducer = dependencies.reduce(function(current, next) {
             return next.reducer ? cloneDeep({}, current, next.reducer) : current;
