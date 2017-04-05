@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "exit 0",
-    "dist": "browserify index.js -o dist/buildium-angular-redux.js",
-    "preversion": "npm run dist"
+    "dist": "browserify index.js -o dist/buildium-angular-redux.js"
   },
   "repository": {
     "type": "git",
