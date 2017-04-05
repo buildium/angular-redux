@@ -12,3 +12,5 @@ angular.module(moduleName, [
 ]);
 
 module.exports = moduleName;
+
+module.exports = require('./src/utils/index')
