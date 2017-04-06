@@ -1,10 +1,10 @@
 'use strict';
 
 let angular = require('angular');
-let cloneDeep = require('lodash.clonedeep');
-let isEmpty = require('lodash.isempty');
 let combineReducers = require('redux').combineReducers;
 let reduxThunk = require('redux-thunk');
+let extend = require('lodash.assignin');
+let isEmpty = require('lodash.isempty');
 let utils = {};
 
 function processDeps(dependencies) {
@@ -17,7 +17,7 @@ function processDeps(dependencies) {
         return dep;
     });
     processedDeps.reducer = dependencies.reduce(function(current, next) {
-        return next.reducer ? cloneDeep({}, current, next.reducer) : current;
+        return next.reducer ? extend({}, current, next.reducer) : current;
     }, {});
 
     return processedDeps;
@@ -29,7 +29,7 @@ utils.createApp = function createApp(name, deps, appReducer) {
     return angular.module(name, processedDeps.angular)
 
         .config(['$ngReduxProvider', function reduxConfig($ngReduxProvider) {
-            let reducerMap = cloneDeep(processedDeps.reducer, appReducer);
+            let reducerMap = extend(processedDeps.reducer, appReducer);
             let storeEnhancers = [];
             let reducer;
 
