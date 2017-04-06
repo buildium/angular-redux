@@ -5,9 +5,9 @@ let cloneDeep = require('lodash.clonedeep');
 let isEmpty = require('lodash.isempty');
 let combineReducers = require('redux').combineReducers;
 let reduxThunk = require('redux-thunk');
-let exports = {};
+let utils = {};
 
-exports.processDeps = function processDeps(dependencies) {
+utils.processDeps = function processDeps(dependencies) {
     let processedDeps = {};
     processedDeps.angular = dependencies.map(function(dep) {
         if (typeof dep !== 'string') {
@@ -23,8 +23,8 @@ exports.processDeps = function processDeps(dependencies) {
     return processedDeps;
 };
 
-exports.createReduxApp = function createApp(name, deps, appReducer) {
-    let processedDeps = exports.processDeps(deps.concat(require('ng-redux')));
+utils.createReduxApp = function createApp(name, deps, appReducer) {
+    let processedDeps = utils.processDeps(deps.concat(require('ng-redux')));
     return angular.module(name, processedDeps.angular)
         .config(function reduxConfig($ngReduxProvider) {
             let reducerMap = cloneDeep(processedDeps.reducer, appReducer);
@@ -53,11 +53,11 @@ exports.createReduxApp = function createApp(name, deps, appReducer) {
         });
 };
 
-exports.createReduxModule = function createModule(name, deps) {
-    let processedDeps = exports.processDeps(deps);
+utils.createReduxModule = function createModule(name, deps) {
+    let processedDeps = utils.processDeps(deps);
     let localModule = angular.module(name, processedDeps.angular);
     localModule.reducer = processedDeps.reducer;
     return localModule;
 };
 
-module.exports = exports;
+module.exports = utils;
