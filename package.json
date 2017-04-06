@@ -22,10 +22,10 @@
     "lodash.assignin": "4.2.0",
     "lodash.isempty": "4.4.0",
     "ng-redux": "3.1.2",
-    "redux": "3.0.5",
     "redux-thunk": "1.0.3"
   },
   "peerDependencies": {
+    "redux": ">=3.0.5",
     "angular": ">=1.5"
   },
   "devDependencies": {
