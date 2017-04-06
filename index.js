@@ -23,6 +23,17 @@ function processDeps(dependencies) {
     return processedDeps;
 };
 
+function AppStateService($ngRedux) {
+    var exports = {};
+
+    exports.connect = function connect(scope, selector, mapper) {
+        var unsubscribe = $ngRedux.connect(selector)(mapper);
+        scope.$on('$destroy', unsubscribe);
+    };
+
+    return exports;
+};
+
 utils.createApp = function createApp(name, deps, appReducer) {
     let processedDeps = processDeps(deps.concat(require('ng-redux')));
 
@@ -53,12 +64,15 @@ utils.createApp = function createApp(name, deps, appReducer) {
                     }, 100);
                 });
             }
-        }]);
+        }])
+
+        .service('AppState', ['$ngRedux', AppStateService]);
 };
 
 utils.createModule = function createModule(name, deps) {
     let processedDeps = processDeps(deps);
-    let localModule = angular.module(name, processedDeps.angular);
+    let localModule = angular.module(name, processedDeps.angular)
+        .service('AppState', ['$ngRedux', AppStateService]);
     localModule.reducer = processedDeps.reducer;
     return localModule;
 };
