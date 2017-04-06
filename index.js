@@ -7,7 +7,7 @@ let combineReducers = require('redux').combineReducers;
 let reduxThunk = require('redux-thunk');
 let utils = {};
 
-utils.processDeps = function processDeps(dependencies) {
+function processDeps(dependencies) {
     let processedDeps = {};
     processedDeps.angular = dependencies.map(function(dep) {
         if (typeof dep !== 'string') {
@@ -23,10 +23,12 @@ utils.processDeps = function processDeps(dependencies) {
     return processedDeps;
 };
 
-utils.createReduxApp = function createApp(name, deps, appReducer) {
-    let processedDeps = utils.processDeps(deps.concat(require('ng-redux')));
+utils.createApp = function createApp(name, deps, appReducer) {
+    let processedDeps = processDeps(deps.concat(require('ng-redux')));
+
     return angular.module(name, processedDeps.angular)
-        .config(function reduxConfig($ngReduxProvider) {
+
+        .config(['$ngReduxProvider', function reduxConfig($ngReduxProvider) {
             let reducerMap = cloneDeep(processedDeps.reducer, appReducer);
             let storeEnhancers = [];
             let reducer;
@@ -40,8 +42,9 @@ utils.createReduxApp = function createApp(name, deps, appReducer) {
                 storeEnhancers.push(window.devToolsExtension());
             }
             $ngReduxProvider.createStoreWith(reducer, [reduxThunk], storeEnhancers);
-        })
-        .run(function($ngRedux, $rootScope) {
+        }])
+
+        .run(['$ngRedux', '$rootScope', function($ngRedux, $rootScope) {
             //We need to listen to state changes outside of the Redux flow when using dev tools
             if (process.env.NODE_ENV !== 'production' && window.devToolsExtension) {
                 $ngRedux.subscribe(function() {
@@ -50,11 +53,11 @@ utils.createReduxApp = function createApp(name, deps, appReducer) {
                     }, 100);
                 });
             }
-        });
+        }]);
 };
 
-utils.createReduxModule = function createModule(name, deps) {
-    let processedDeps = utils.processDeps(deps);
+utils.createModule = function createModule(name, deps) {
+    let processedDeps = processDeps(deps);
     let localModule = angular.module(name, processedDeps.angular);
     localModule.reducer = processedDeps.reducer;
     return localModule;
