@@ -2,11 +2,13 @@
   "name": "@buildium/angular-redux",
   "version": "1.0.0-12",
   "description": "A collection of functions that wires Redux up to Angular apps",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "exit 0",
-    "dist": "mkdirp dist && browserify index.js -o dist/buildium-angular-redux.js",
-    "prepublish": "npm run dist"
+    "compile": "babel src --out-dir lib --presets=es2015",
+    "dist": "mkdirp dist && browserify lib/index.js -o dist/buildium-angular-redux.js",
+    "build": "npm run compile && npm run dist",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,8 @@
   },
   "devDependencies": {
     "angular": "1.5",
+    "babel-cli": "6.24.0",
+    "babel-preset-es2015": "6.24.0",
     "browserify": "14.1.0",
     "mkdirp": "0.5.1",
     "redux": "3.0.5"
