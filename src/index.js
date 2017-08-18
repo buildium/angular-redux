@@ -77,4 +77,14 @@ utils.createModule = function createModule(name, deps) {
     return localModule;
 };
 
+utils.createState = function createState(initialState, reducers) {
+    return function reduce(state, action) {
+        let reducer = reducers[action.type];
+        if (reducer) {
+            return reducer(state, action);
+        }
+        return state || initialState;
+    };
+};
+
 module.exports = utils;
