@@ -29,6 +29,8 @@ function AppStateService($ngRedux) {
     exports.connect = function connect(scope, selector, mapper) {
         var unsubscribe = $ngRedux.connect(selector)(mapper);
         scope.$on('$destroy', unsubscribe);
+        scope.$on('$stateChangeStart', unsubscribe); //Unsub on ui-router state change
+        return unsubscribe; //Return ref to allow "disconnect" manually
     };
 
     return exports;
